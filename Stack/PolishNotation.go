@@ -49,3 +49,34 @@ func EvalRPNStack(tokens []string) int {
 	val, _ := strconv.Atoi(stack.Pop())
 	return val
 }
+
+func EvalRPNRecursion(tokens []string) int {
+	index := len(tokens) - 1
+
+	var dfs func() int
+
+	dfs = func() int {
+		token := tokens[index]
+		index--
+
+		if !strings.Contains("+-*/", token) {
+			v, _ := strconv.Atoi(token)
+			return v
+		}
+		right := dfs()
+		left := dfs()
+
+		switch token {
+		case "+":
+			return left + right
+		case "-":
+			return left - right
+		case "*":
+			return left * right
+		default:
+			return left / right
+		}
+	}
+
+	return dfs()
+}

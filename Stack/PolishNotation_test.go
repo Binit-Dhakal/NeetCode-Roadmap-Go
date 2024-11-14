@@ -18,9 +18,15 @@ func TestPolishNotation(t *testing.T) {
 		{"long calc", []string{"10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"}, 22},
 	}
 
-	t.Run("test polish notation", func(t *testing.T) {
+	t.Run("test polish notation using stack", func(t *testing.T) {
 		for _, test := range testCases {
 			utils.HelperTest(t, test.name, test.output, stack.EvalRPNStack, test.input)
+		}
+	})
+
+	t.Run("test polish notating using dfs", func(t *testing.T) {
+		for _, test := range testCases {
+			utils.HelperTest(t, test.name, test.output, stack.EvalRPNRecursion, test.input)
 		}
 	})
 }
