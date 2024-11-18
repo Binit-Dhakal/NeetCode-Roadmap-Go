@@ -13,7 +13,7 @@ func HelperTest(t *testing.T, name string, output interface{}, fn interface{}, a
 	t.Run(name, func(t *testing.T) {
 		result, err := callFunction(fn, args...)
 		if err != nil {
-			fmt.Println("Error ", err)
+			t.Errorf("Error %v", err)
 			return
 		}
 
