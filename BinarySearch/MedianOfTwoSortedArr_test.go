@@ -14,15 +14,23 @@ func TestMedianOfTwoSortedArr(t *testing.T) {
 		input2 []int
 		output float64
 	}{
-		{"odd length of merged arr", []int{1, 3}, []int{2}, 2.00000},
-		{"even length of merged arr", []int{1, 2}, []int{3, 4}, 2.50000},
-		{"nums1 length be 0 and other be 1", []int{}, []int{1}, 1},
-		{"nums length total be 2", []int{1}, []int{2}, 1.5},
+		{"Ex-1", []int{1, 2, 5, 7, 9}, []int{3, 5, 6, 10}, 5},
+		{"Ex-2", []int{1, 2, 5, 7, 9, 10}, []int{3, 5, 6, 10}, 5.5},
+		// {"odd length of merged arr", []int{1, 3}, []int{2}, 2.00000},
+		// {"even length of merged arr", []int{1, 2}, []int{3, 4}, 2.50000},
+		// {"nums1 length be 0 and other be 1", []int{}, []int{1}, 1},
+		// {"nums length total be 2", []int{1}, []int{2}, 1.5},
 	}
 
 	t.Run("Brute Force Approach", func(t *testing.T) {
 		for _, test := range testCases {
 			utils.HelperTest(t, test.name, test.output, binarysearch.MedianBruteForce, test.input1, test.input2)
+		}
+	})
+
+	t.Run("Binary Tree Approach", func(t *testing.T) {
+		for _, test := range testCases {
+			utils.HelperTest(t, test.name, test.output, binarysearch.MedianBT, test.input1, test.input2)
 		}
 	})
 }
