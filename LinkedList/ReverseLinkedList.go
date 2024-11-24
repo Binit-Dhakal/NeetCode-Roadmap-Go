@@ -21,9 +21,10 @@ func BuildLinkedList(values []int) *ListNode {
 
 func TraverseLinkedList(head *ListNode) []int {
 	res := []int{}
-	for head != nil {
-		res = append(res, head.Val)
-		head = head.Next
+	current := head
+	for current != nil {
+		res = append(res, current.Val)
+		current = current.Next
 	}
 	return res
 }
