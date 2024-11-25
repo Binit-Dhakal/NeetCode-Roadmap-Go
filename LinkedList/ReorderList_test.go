@@ -26,7 +26,6 @@ func TestReorderList(t *testing.T) {
 			if !reflect.DeepEqual(got, test.output) {
 				t.Errorf("got: %v, want: %v", got, test.output)
 			}
-
 		}
 	})
 
@@ -38,7 +37,6 @@ func TestReorderList(t *testing.T) {
 			if !reflect.DeepEqual(got, test.output) {
 				t.Errorf("got: %v, want: %v", got, test.output)
 			}
-
 		}
 	})
 
@@ -50,7 +48,6 @@ func TestReorderList(t *testing.T) {
 			if !reflect.DeepEqual(got, test.output) {
 				t.Errorf("got: %v, want: %v", got, test.output)
 			}
-
 		}
 	})
 }
