@@ -6,13 +6,19 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-func preOrderTraversal(nums []int, parentIndex int) *TreeNode {
+const NilNode = int(^uint(0) >> 1)
+
+func preOrderTraversal(nums []*int, parentIndex int) *TreeNode {
 	if parentIndex >= len(nums) {
 		return nil
 	}
 
+	if nums[parentIndex] == nil {
+		return nil
+	}
+
 	root := &TreeNode{
-		Val: nums[parentIndex],
+		Val: *nums[parentIndex],
 	}
 
 	root.Left = preOrderTraversal(nums, 2*parentIndex+1)
@@ -21,18 +27,31 @@ func preOrderTraversal(nums []int, parentIndex int) *TreeNode {
 	return root
 }
 
-func BuildBinaryTree(nums []int) *TreeNode {
-	return preOrderTraversal(nums, 0)
+func IntPtr(a int) *int {
+	return &a
 }
 
-func bfs(node *TreeNode, res *[]int) {
-	if node == nil {
-		return
-	}
+func BuildBinaryTree(nums []int) *TreeNode {
+	numsPtr := make([]*int, len(nums))
 
-	*res = append(*res, node.Val)
-	bfs(node.Left, res)
-	bfs(node.Right, res)
+	for idx, num := range nums {
+		if num == NilNode {
+			numsPtr[idx] = nil
+		} else {
+			numsPtr[idx] = IntPtr(num)
+		}
+	}
+	root := preOrderTraversal(numsPtr, 0)
+	return root
+}
+
+func isAllNil(s []*TreeNode) bool {
+	for _, val := range s {
+		if val != nil {
+			return false
+		}
+	}
+	return true
 }
 
 func TraverseBinaryTree(node *TreeNode) []int {
@@ -43,14 +62,26 @@ func TraverseBinaryTree(node *TreeNode) []int {
 
 	for len(queue) > 0 {
 		node := queue[0]
+		if isAllNil(queue) {
+			break
+		}
+
+		queue = queue[1:]
+		if node == nil {
+			res = append(res, NilNode)
+			continue
+		}
 		res = append(res, node.Val)
 		if node.Left != nil {
 			queue = append(queue, node.Left)
+		} else {
+			queue = append(queue, nil)
 		}
 		if node.Right != nil {
 			queue = append(queue, node.Right)
+		} else {
+			queue = append(queue, nil)
 		}
-		queue = queue[1:]
 	}
 
 	return res
