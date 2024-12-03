@@ -16,7 +16,7 @@ func ValidateBST(root *TreeNode) bool {
 			return false
 		}
 
-		return isValid(root.Left, [2]int{numRange[0], root.Val}) && isValid(root.Right, [2]int{root.Val, numRange[0]})
+		return isValid(root.Left, [2]int{numRange[0], root.Val}) && isValid(root.Right, [2]int{root.Val, numRange[1]})
 	}
 
 	return isValid(root, [2]int{math.MinInt, math.MaxInt})
