@@ -42,6 +42,18 @@ func TestNumberOfIslands(t *testing.T) {
 			})
 		}
 	})
+
+	t.Run("Using Union Find Approach", func(t *testing.T) {
+		for _, test := range testCases {
+			t.Run(test.name, func(t *testing.T) {
+				temp := copy2DSlice(test.input)
+				output := graph.NumIslandsDisjointSet(temp)
+				if output != test.output {
+					t.Errorf("Got: %v, want: %v", output, test.output)
+				}
+			})
+		}
+	})
 }
 
 func copy2DSlice[T any](src [][]T) [][]T {

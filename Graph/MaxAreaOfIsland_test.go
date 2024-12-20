@@ -33,6 +33,7 @@ func TestMaxAreaOfIsland(t *testing.T) {
 			{0, 1, 1, 1, 0},
 			{0, 0, 0, 1, 0},
 		}, 6},
+		{"Ex-4", [][]int{{1, 0, 1}, {0, 1, 1}, {0, 0, 1}}, 4},
 	}
 
 	t.Run("DFS method", func(t *testing.T) {
@@ -51,6 +52,17 @@ func TestMaxAreaOfIsland(t *testing.T) {
 			t.Run(test.name, func(t *testing.T) {
 				inp := copy2DSlice(test.input)
 				output := graph.MaxAreaOfIslandBFS(inp)
+				if output != test.ouput {
+					t.Errorf("Got: %v, want: %v", output, test.ouput)
+				}
+			})
+		}
+	})
+	t.Run("Disjoint set method", func(t *testing.T) {
+		for _, test := range testCases {
+			t.Run(test.name, func(t *testing.T) {
+				inp := copy2DSlice(test.input)
+				output := graph.MaxAreaOfIslandDisjointSet(inp)
 				if output != test.ouput {
 					t.Errorf("Got: %v, want: %v", output, test.ouput)
 				}

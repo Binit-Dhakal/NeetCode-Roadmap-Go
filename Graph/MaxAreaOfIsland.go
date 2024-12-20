@@ -66,3 +66,32 @@ func MaxAreaOfIslandBFS(grid [][]int) int {
 
 	return maxArea
 }
+
+func MaxAreaOfIslandDisjointSet(grid [][]int) int {
+	rows, cols := len(grid), len(grid[0])
+	dsu := NewDSU(rows * cols)
+	directions := [][2]int{{-1, 0}, {0, -1}, {1, 0}, {0, 1}}
+	index := func(r, c int) int {
+		return r*cols + c
+	}
+	area := 0
+
+	for r := range rows {
+		for c := range cols {
+			if grid[r][c] == 1 {
+				for _, dir := range directions {
+					dr, dc := r+dir[0], c+dir[1]
+					if dr < 0 || dc < 0 || dr >= rows || dc >= cols || grid[dr][dc] == 0 {
+						continue
+					}
+
+					dsu.union(index(r, c), index(dr, dc))
+				}
+
+				area = max(area, dsu.getSize(index(r, c)))
+			}
+		}
+	}
+
+	return area
+}

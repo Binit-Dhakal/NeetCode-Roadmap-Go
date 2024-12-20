@@ -66,3 +66,82 @@ func NumIslandsBFS(grid [][]byte) int {
 
 	return numIsland
 }
+
+type DSU struct {
+	Parent []int
+	Size   []int
+}
+
+func NewDSU(n int) *DSU {
+	dsu := &DSU{
+		Parent: make([]int, n+1),
+		Size:   make([]int, n+1),
+	}
+
+	for i := 0; i <= n; i++ {
+		dsu.Parent[i] = i
+		dsu.Size[i] = 1
+	}
+	return dsu
+}
+
+func (dsu *DSU) find(node int) int {
+	if dsu.Parent[node] != node {
+		// path compression
+		dsu.Parent[node] = dsu.find(dsu.Parent[node])
+	}
+	return dsu.Parent[node]
+}
+
+func (dsu *DSU) union(u int, v int) bool {
+	du := dsu.find(u)
+	dv := dsu.find(v)
+
+	if du == dv {
+		return false
+	}
+
+	if dsu.Size[du] >= dsu.Size[dv] {
+		dsu.Size[du] += dsu.Size[dv]
+		dsu.Parent[dv] = du
+	} else {
+		dsu.Size[dv] += dsu.Size[du]
+		dsu.Parent[du] = dv
+	}
+	return true
+}
+
+func (dsu *DSU) getSize(node int) int {
+	par := dsu.find(node)
+	return dsu.Size[par]
+}
+
+func NumIslandsDisjointSet(grid [][]byte) int {
+	row, col := len(grid), len(grid[0])
+	dsu := NewDSU(row * col)
+	directions := [][2]int{{-1, 0}, {0, -1}, {1, 0}, {0, 1}}
+	islands := 0
+
+	index := func(r, c int) int {
+		return r*col + c
+	}
+
+	for r := range row {
+		for c := range col {
+			if grid[r][c] == '1' {
+				islands++
+				for _, dir := range directions {
+					dr, dc := r+dir[0], c+dir[1]
+					if dr < 0 || dc < 0 || dr >= row || dc >= col || grid[dr][dc] == '0' {
+						continue
+					}
+
+					if dsu.union(index(r, c), index(dr, dc)) {
+						islands--
+					}
+				}
+			}
+		}
+	}
+	return islands
+}
