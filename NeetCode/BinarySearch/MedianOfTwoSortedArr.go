@@ -1,6 +1,8 @@
 package binarysearch
 
-import "math"
+import (
+	"math"
+)
 
 func MedianBruteForce(nums1 []int, nums2 []int) float64 {
 	nums := make([]int, len(nums1)+len(nums2))
@@ -40,26 +42,27 @@ func MedianBruteForce(nums1 []int, nums2 []int) float64 {
 }
 
 func calculateMedian(A []int, B []int) float64 {
-	half := (len(A) + len(B)) / 2
+	total := len(A) + len(B)
+	half := (total + 1) / 2
 
-	leftPtr, rightPtr := 0, len(A)-1
-	var bigNumPtr, midPtr int
+	leftPtr, rightPtr := 0, len(A)
+	var BPtr, midPtr int
 	for leftPtr <= rightPtr {
-		midPtr = (rightPtr - leftPtr) / 2
-		bigNumPtr = half - midPtr - 1
+		midPtr = (rightPtr + leftPtr) / 2
+		BPtr = half - midPtr - 2
 
 		Bleft := math.MinInt
-		if bigNumPtr-1 < len(B) {
-			Bleft = B[bigNumPtr-1]
+		if BPtr > 0 {
+			Bleft = B[BPtr]
 		}
 
 		Bright := math.MaxInt
-		if bigNumPtr < len(B) {
-			Bright = B[bigNumPtr]
+		if BPtr+1 < len(B) {
+			Bright = B[BPtr+1]
 		}
 
 		Aleft := math.MinInt
-		if midPtr < len(A) {
+		if midPtr > 0 {
 			Aleft = A[midPtr]
 		}
 
@@ -73,19 +76,14 @@ func calculateMedian(A []int, B []int) float64 {
 		} else if Bright < Aleft {
 			rightPtr = midPtr - 1
 		} else {
-			// we found our bigNumPtr and midPtr
-			break
+			// we found our BPtr and midPtr
+			if total%2 != 0 {
+				return float64(min(Aright, Bright))
+			}
+			return float64(min(Aright, Bright)+max(Aleft, Bleft)) / 2.0
 		}
 	}
-
-	var res float64
-	if (len(A)+len(B))%2 != 0 {
-		return float64(max(, A[midPtr+1]))
-	} else {
-		res = float64(max(B[bigNumPtr-1], A[midPtr])+min(B[bigNumPtr], A[midPtr+1])) / 2
-	}
-
-	return res
+	return 0.0
 }
 
 func MedianBT(nums1 []int, nums2 []int) float64 {
