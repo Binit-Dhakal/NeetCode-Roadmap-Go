@@ -7,6 +7,19 @@ import (
 	"testing"
 )
 
+func Copy2DSlice[T any](src [][]T) [][]T {
+	// Create a new slice with the same length as the source
+	dst := make([][]T, len(src))
+
+	for i := range src {
+		// Create a new slice for each inner slice and copy the data
+		dst[i] = make([]T, len(src[i]))
+		copy(dst[i], src[i])
+	}
+
+	return dst
+}
+
 func HelperTest(t *testing.T, name string, output interface{}, fn interface{}, args ...interface{}) {
 	t.Helper()
 
