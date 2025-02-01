@@ -41,3 +41,23 @@ func PascalsTriangleMath(numRows int) [][]int {
 
 	return result
 }
+
+func PascalsTriangleMathOptimized(numRows int) [][]int {
+	generateRows := func(row int) []int {
+		res := make([]int, row)
+		res[0] = 1
+		ans := 1
+		for col := 1; col < row; col++ {
+			ans *= (row - col)
+			ans /= col
+			res[col] = ans
+		}
+		return res
+	}
+
+	results := make([][]int, 0)
+	for r := 1; r <= numRows; r++ {
+		results = append(results, generateRows(r))
+	}
+	return results
+}

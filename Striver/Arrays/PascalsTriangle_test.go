@@ -38,4 +38,15 @@ func TestPascalsTriangle(t *testing.T) {
 			})
 		}
 	})
+
+	t.Run("Math-Combination Optimized", func(t *testing.T) {
+		for _, test := range testCases {
+			t.Run(test.name, func(t *testing.T) {
+				output := arrays.PascalsTriangleMathOptimized(test.numRows)
+				if !reflect.DeepEqual(output, test.output) {
+					t.Errorf("Got: %v, want: %v", output, test.output)
+				}
+			})
+		}
+	})
 }
