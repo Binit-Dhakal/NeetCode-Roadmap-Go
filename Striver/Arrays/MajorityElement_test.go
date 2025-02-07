@@ -14,6 +14,7 @@ func TestMajorityElement(t *testing.T) {
 	}{
 		{"Ex-1", []int{3, 2, 3}, 3},
 		{"Ex-2", []int{2, 2, 1, 1, 1, 2, 2}, 2},
+		{"Ex-3", []int{-3, -2, -3}, -3},
 	}
 
 	t.Run("Boyer-Moore Majority Vote Algorithm", func(t *testing.T) {

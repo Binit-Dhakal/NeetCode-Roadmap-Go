@@ -41,5 +41,10 @@ func MajorityElementBitwise(nums []int) int {
 		}
 	}
 
+	// handling negative number
+	if (1<<31)&majority != 0 {
+		majority -= (1 << 32)
+	}
+
 	return majority
 }
