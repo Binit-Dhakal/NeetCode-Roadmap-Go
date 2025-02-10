@@ -6,6 +6,9 @@ type ListNode struct {
 }
 
 func CreateLinkedList(nums []int) *ListNode {
+	if len(nums) == 0 {
+		return nil
+	}
 	head := &ListNode{}
 	cur := head
 
